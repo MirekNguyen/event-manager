@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,21 +21,35 @@ class EventType extends AbstractType
         ->add('name', TextType::class, [
             'attr' => [
                 'class' => 'form-control',
+                'placeholder' => 'Event name...',
             ],
         ])
         ->add('description', TextareaType::class, [
             'attr' => [
                 'class' => 'form-control',
+                'placeholder' => 'Description...',
             ],
         ])
-            ->add('participants', IntegerType::class)
-        ->add('start_date', DateTimeType::class, [
+        ->add('participants', IntegerType::class, [
             'attr' => [
-                'class' => 'form-control input-inline datetimepicker',
-                'data-provide' => 'datetimepicker',
+                'class' => 'form-control'
             ]
         ])
-            ->add('end_date', DateTimeType::class)
+        ->add('start_date', DateTimeType::class, [
+            'html5' => false,
+            'widget' => 'single_text',
+            'format' => 'd/m/Y h:i'
+        ])
+        ->add('end_date', DateTimeType::class, [
+            'html5' => false,
+            'widget' => 'single_text',
+            'format' => 'd/m/Y h:i'
+        ])
+        ->add('save', SubmitType::class, [
+            'attr' => [
+                'class' => 'btn btn-primary'
+            ]
+        ])
         ;
     }
 
