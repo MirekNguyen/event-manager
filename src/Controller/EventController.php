@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\EventType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,8 +14,10 @@ class EventController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(): Response
     {
+        $event = new Event();
+        $form = $this->createForm(EventType::class, $event);
         return $this->render('event/index.html.twig', [
-            'controller_name' => 'EventController',
+            'form' => $form,
         ]);
     }
 
