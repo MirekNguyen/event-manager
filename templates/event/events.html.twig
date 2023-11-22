@@ -9,11 +9,28 @@
 </style>
 
 <div class="example-wrapper">
-    <ul>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Participants</th>
+      <th scope="col">Start date</th>
+      <th scope="col">End date</th>
+    </tr>
+  </thead>
+  <tbody>
     {% for event in events %}
-      <li>{{ event.name }}</li>
+    <tr>
+      <td>{{ event.name }}</td>
+      <td>{{ event.description }}</td>
+      <td>{{ event.participants }}</td>
+      <td>{{ event.startDate | date('Y-m-d\\ H:i') }}</td>
+      <td>{{ event.endDate | date('Y-m-d\\ H:i:s') }}</td>
+    </tr>
     {% endfor %}
-    </ul>
+  </tbody>
+</table>
 
     This friendly message is coming from:
 </div>
