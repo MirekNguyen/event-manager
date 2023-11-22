@@ -48,7 +48,7 @@ final class EventFactory extends ModelFactory
     {
         return [
             'end_date' => self::faker()->dateTime(),
-            'name' => self::faker()->text(255),
+            'name' => self::faker()->name(),
             'participants' => self::faker()->randomNumber(),
             'start_date' => self::faker()->dateTime(),
         ];
