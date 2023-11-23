@@ -38,12 +38,12 @@ class EventType extends AbstractType
         ->add('start_date', DateTimeType::class, [
             'html5' => false,
             'widget' => 'single_text',
-            'format' => 'd/m/Y h:i'
+            'format' => 'dd/MM/yyyy HH:mm'
         ])
         ->add('end_date', DateTimeType::class, [
             'html5' => false,
             'widget' => 'single_text',
-            'format' => 'd/m/Y h:i'
+            'format' => 'dd/MM/yyyy HH:mm'
         ])
         ->add('save', SubmitType::class, [
             'attr' => [
