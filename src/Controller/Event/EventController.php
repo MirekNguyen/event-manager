@@ -3,7 +3,9 @@
 namespace App\Controller\Event;
 
 use App\Entity\Event;
+use App\Form\EventFilterType;
 use App\Form\EventType;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,8 +21,6 @@ class EventController extends AbstractController
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             $event = $form->getData();
             $entityManager->persist($event);
             $entityManager->flush();
@@ -34,11 +34,20 @@ class EventController extends AbstractController
     }
 
     #[Route('/events', name: 'app_events')]
-    public function events(EntityManagerInterface $entityManager): Response
+    public function events(EntityManagerInterface $entityManager, Request $request): Response
     {
         $repository = $entityManager->getRepository(Event::class);
-        $events = $repository->findAll();
+        $criteria = Criteria::create();
+
+        $form = $this->createForm(EventFilterType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $criteria->andWhere(Criteria::expr()->contains('name', $data['nameFilter']));
+        }
+        $events = $repository->findByCriteria($criteria);
         return $this->render('event/events.html.twig', [
+            'form' => $form,
             'events' => $events
         ]);
     }
