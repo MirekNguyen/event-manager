@@ -24,6 +24,6 @@ class EventActionController extends AbstractController
         $event = $repository->find($eventId);
         $entityManager->remove($event);
         $entityManager->flush();
-        return $this->redirectToRoute('app_events');
+        return $this->redirectToRoute('app_administration');
     }
 }
