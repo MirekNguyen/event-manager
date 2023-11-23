@@ -45,6 +45,20 @@ class EventController extends AbstractController
     #[Route('/administration', name: 'app_administration')]
     public function administration(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('event/administration.html.twig');
+        $repository = $entityManager->getRepository(Event::class);
+        $events = $repository->findAll();
+        return $this->render('event/administration.html.twig', [
+            'events' => $events
+        ]);
+    }
+    #[Route('/events/{id}/edit', name: 'event_edit')]
+    public function edit(): Response
+    {
+        return $this->redirectToRoute('app_events');
+    }
+    #[Route('/events/{id}/delete', name: 'event_delete')]
+    public function delete(): Response
+    {
+        return $this->redirectToRoute('app_events');
     }
 }

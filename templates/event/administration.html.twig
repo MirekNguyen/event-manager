@@ -1,13 +1,30 @@
 {% extends 'base.html.twig' %}
 {% block title %}Administration{% endblock %}
 {% block body %}
-<tbody>
+<table class="table">
+  <thead>
     <tr>
-        <td>2023-11-23</td>
-        <td>
-            <button class="btn btn-primary">Edit</button>
-            <button class="btn btn-danger">Delete</button>
-        </td>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Participants</th>
+      <th scope="col">Start date</th>
+      <th scope="col">End date</th>
     </tr>
-</tbody>
+  </thead>
+  <tbody>
+    {% for event in events %}
+      <tr>
+        <td>{{ event.name }}</td>
+        <td>{{ event.description }}</td>
+        <td>{{ event.participants }}</td>
+        <td>{{ event.startDate|date('Y-m-d\\ H:i') }}</td>
+        <td>{{ event.endDate|date('Y-m-d\\ H:i:s') }}</td>
+          <td>
+            <a href="{{ path('event_edit', {'id': event.id}) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ path('event_delete', {'id': event.id}) }}" class="btn btn-danger">Delete</a>
+          </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
