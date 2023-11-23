@@ -17,8 +17,8 @@
         <td>{{ event.name }}</td>
         <td>{{ event.description }}</td>
         <td>{{ event.participants }}</td>
-        <td>{{ event.startDate|date('Y-m-d\\ H:i') }}</td>
-        <td>{{ event.endDate|date('Y-m-d\\ H:i') }}</td>
+        <td>{{ event.startDate|date('d/m/Y\\ H:i') }}</td>
+        <td>{{ event.endDate|date('d/m/Y\\ H:i') }}</td>
           <td>
             <a href="{{ path('event_edit', {'id': event.id}) }}" class="btn btn-primary">Edit</a>
             <a href="{{ path('event_delete', {'id': event.id}) }}" class="btn btn-danger">Delete</a>
