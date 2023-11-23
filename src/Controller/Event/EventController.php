@@ -51,14 +51,4 @@ class EventController extends AbstractController
             'events' => $events
         ]);
     }
-    #[Route('/events/{id}/edit', name: 'event_edit')]
-    public function edit(): Response
-    {
-        return $this->redirectToRoute('app_events');
-    }
-    #[Route('/events/{id}/delete', name: 'event_delete')]
-    public function delete(): Response
-    {
-        return $this->redirectToRoute('app_events');
-    }
 }
