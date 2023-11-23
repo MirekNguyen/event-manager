@@ -43,7 +43,7 @@ class EventController extends AbstractController
         ]);
     }
     #[Route('/administration', name: 'app_administration')]
-    public function administration(): Response
+    public function administration(EntityManagerInterface $entityManager): Response
     {
         return $this->render('event/administration.html.twig');
     }
