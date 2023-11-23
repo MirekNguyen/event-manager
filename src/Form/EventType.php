@@ -29,6 +29,7 @@ class EventType extends AbstractType
                 'class' => 'form-control',
                 'placeholder' => 'Description...',
             ],
+            'required' => false,
         ])
         ->add('participants', IntegerType::class, [
             'attr' => [
