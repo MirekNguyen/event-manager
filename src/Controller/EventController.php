@@ -42,4 +42,9 @@ class EventController extends AbstractController
             'events' => $events
         ]);
     }
+    #[Route('/administration', name: 'app_administration')]
+    public function administration(): Response
+    {
+        return $this->render('event/administration.html.twig');
+    }
 }
