@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block body %}
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h2>{{ event.name }}</h2>
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          <strong>Description:</strong> {{ event.description }}
+        </p>
+        <p class="card-text">
+          <strong>Participants:</strong> {{ event.participants }}
+        </p>
+        <p class="card-text">
+          <strong>Start Date:</strong> {{ event.startDate|date('Y-m-d H:i') }}
+        </p>
+        <p class="card-text">
+          <strong>End Date:</strong> {{ event.endDate|date('Y-m-d H:i') }}
+        </p>
+        <p class="list-group-item">
+          <strong>Duration:</strong>
+
+          {% set difference = date(event.endDate).diff(date(event.startDate)) %}
+
+          {% if difference.format('%y') > 0 %}
+            {{ difference.format('%y years, %m months, %d days, %h hours, %i minutes') }}
+          {% elseif difference.format('%m') > 0 %}
+            {{ difference.format('%m months, %d days, %h hours, %i minutes') }}
+          {% elseif difference.format('%d') > 0 %}
+            {{ difference.format('%d days, %h hours, %i minutes') }}
+          {% else %}
+            {{ difference.format('%h hours, %i minutes') }}
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
