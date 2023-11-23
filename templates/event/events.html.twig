@@ -13,6 +13,7 @@
       <th scope="col">Participants</th>
       <th scope="col">Start date</th>
       <th scope="col">End date</th>
+      <th scope="col">Details</th>
     </tr>
   </thead>
   <tbody>
@@ -21,8 +22,9 @@
       <td>{{ event.name }}</td>
       <td>{{ event.description }}</td>
       <td>{{ event.participants }}</td>
-      <td>{{ event.startDate | date('Y-m-d\\ H:i') }}</td>
-      <td>{{ event.endDate | date('Y-m-d\\ H:i:s') }}</td>
+      <td>{{ event.startDate|date('Y-m-d\\ H:i') }}</td>
+      <td>{{ event.endDate|date('Y-m-d\\ H:i') }}</td>
+      <td> <a href="{{ path('app_details', {'id': event.id}) }}" class="btn btn-primary">View</a> </td>
     </tr>
     {% endfor %}
   </tbody>
