@@ -18,12 +18,26 @@ const picker = new tempusdominus
       format: 'dd/MM/yyyy HH:mm',
   }
   });
-const pickerr2 = new tempusdominus
+const picker2 = new tempusdominus
   .TempusDominus(document.getElementById('event_end_date'), {
     localization: {
       format: 'dd/MM/yyyy HH:mm',
   }
   });
+
+const event_filter_start = new tempusdominus
+  .TempusDominus(document.getElementById('event_filter_start_date'), {
+    localization: {
+      format: 'dd/MM/yyyy HH:mm',
+  }
+  });
+const event_filter_end = new tempusdominus
+  .TempusDominus(document.getElementById('event_filter_end_date'), {
+    localization: {
+      format: 'dd/MM/yyyy HH:mm',
+  }
+  });
+
 
 $(document).ready(function() {
 });

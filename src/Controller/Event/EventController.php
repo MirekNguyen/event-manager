@@ -42,8 +42,19 @@ class EventController extends AbstractController
         $form = $this->createForm(EventFilterType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $criteria->andWhere(Criteria::expr()->contains('name', $data['nameFilter']));
+            $filters = $form->getData();
+            $nameFilter = $filters['nameFilter'];
+            $startDateFilter = $filters['start_date'];
+            $endDateFilter = $filters['end_date'];
+            if ($nameFilter) {
+                $criteria->andWhere(Criteria::expr()->contains('name', $filters['nameFilter']));
+            }
+            if ($startDateFilter) {
+                $criteria->andWhere(Criteria::expr()->gte('start_date', $filters['start_date']));
+            }
+            if ($endDateFilter) {
+                $criteria->andWhere(Criteria::expr()->lte('end_date', $filters['end_date']));
+            }
         }
         $events = $repository->findByCriteria($criteria);
         return $this->render('event/events.html.twig', [

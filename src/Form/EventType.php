@@ -36,11 +36,17 @@ class EventType extends AbstractType
             ]
         ])
         ->add('start_date', DateTimeType::class, [
+            'attr' => [
+                'class' => 'form-control',
+            ],
             'html5' => false,
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy HH:mm'
         ])
         ->add('end_date', DateTimeType::class, [
+            'attr' => [
+                'class' => 'form-control',
+            ],
             'html5' => false,
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy HH:mm'
