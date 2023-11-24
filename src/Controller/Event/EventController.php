@@ -65,10 +65,10 @@ class EventController extends AbstractController
                 ->andWhere('category.id=:category_id')
                 ->setParameter('category_id', $categoryFilter->getId());
             }
-            $queryBuilder
-            ->orderBy('event.name', 'DESC')
-            ->addCriteria($criteria);
         }
+        $queryBuilder
+        ->orderBy('event.end_date', 'DESC')
+        ->addCriteria($criteria);
         $query = $queryBuilder->getQuery();
         $event_array = $query->getScalarResult();
         $count = count($event_array);

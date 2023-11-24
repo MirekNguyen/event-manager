@@ -46,11 +46,12 @@ class EventFilterType extends AbstractType
             'required' => false
         ])
         ->add('category', EntityType::class, [
+            'attr' => [
+                'class' => 'form-select',
+            ],
             'class' => EventCategory::class,
             'choice_label' => 'name',
             'required' => false,
-            # 'multiple' => true,
-            # 'expanded' => true,
         ])
         ->add(
             'filter',

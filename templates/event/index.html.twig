@@ -8,35 +8,44 @@
 <h4 class="card-title mt-3 text-center">New Event</h4>
   <div class="card">
     <div class="card-body">
-{{ form_start(form) }}
- {{ form_row(form.name) }}
- {{ form_row(form.description) }}
- {{ form_row(form.participants) }}
+        {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.participants) }}
 
- {{ form_label(form.start_date) }}
- <div class="input-group" />
-  {{ form_widget(form.start_date) }}
-  <span
-  class="input-group-text"
-  data-td-target="#datetimepicker1"
-  data-td-toggle="datetimepicker"
-  >
-  <i class="fas fa-calendar"></i>
-  </span>
-</div>
- {{ form_label(form.end_date) }}
- <div class="input-group" />
-  {{ form_widget(form.end_date) }}
-  <span
-  class="input-group-text"
-  data-td-target="#datetimepicker1"
-  data-td-toggle="datetimepicker"
-  >
-  <i class="fas fa-calendar"></i>
-  </span>
-</div>
-</div>
-</div>
+        {{ form_label(form.start_date) }}
+        <div class="input-group" />
+          {{ form_widget(form.start_date) }}
+          <span
+            class="input-group-text"
+            data-td-target="#datetimepicker1"
+            data-td-toggle="datetimepicker"
+          >
+            <i class="fas fa-calendar"></i>
+          </span>
+        </div>
+        {{ form_label(form.end_date) }}
+        <div class="input-group" />
+        {{ form_widget(form.end_date) }}
+        <span
+          class="input-group-text"
+          data-td-target="#datetimepicker1"
+          data-td-toggle="datetimepicker"
+        >
+        <i class="fas fa-calendar"></i>
+        </span>
+        </div>
+        {{ form_label(form.category) }}
+        <div class="input-group">
+          {% for category in form.category %}
+        <div class="form-check form-check-inline">
+            {{ form_widget(category, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(category) }}
+        </div>
+          {% endfor %}
+        </div>
+    </div>
+  </div>
 {{ form_end(form) }}
 </div>
 {% endblock %}

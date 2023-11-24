@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\EventCategory;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -36,8 +38,17 @@ class EventType extends AbstractType
                 'class' => 'form-control'
             ]
         ])
-        ->add('category', ChoiceType::class, [
+        ->add('category', EntityType::class, [
+            'attr' => [
+                'class' => 'form-control',
+            ],
+            'class' => EventCategory::class,
+            'choice_label' => 'name',
+            'required' => false,
+            'multiple' => true,
+            'expanded' => true,
         ])
+
         ->add('start_date', DateTimeType::class, [
             'attr' => [
                 'class' => 'form-control',
