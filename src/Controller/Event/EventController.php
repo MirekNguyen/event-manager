@@ -37,46 +37,21 @@ class EventController extends AbstractController
     public function events(EntityManagerInterface $entityManager, Request $request): Response
     {
         $repository = $entityManager->getRepository(Event::class);
-        $criteria = Criteria::create();
-
-        $queryBuilder = $repository->createQueryBuilder('event');
-
 
         $form = $this->createForm(EventFilterType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $filters = $form->getData();
-            $nameFilter = $filters['nameFilter'];
-            $startDateFilter = $filters['start_date'];
-            $endDateFilter = $filters['end_date'];
-            $categoryFilter = $filters['category'];
-            if ($nameFilter) {
-                $criteria->andWhere(Criteria::expr()->contains('name', $filters['nameFilter']));
-            }
-            if ($startDateFilter) {
-                $criteria->andWhere(Criteria::expr()->gte('start_date', $filters['start_date']));
-            }
-            if ($endDateFilter) {
-                $criteria->andWhere(Criteria::expr()->lte('end_date', $filters['end_date']));
-            }
-            if ($categoryFilter) {
-                $queryBuilder
-                ->innerjoin('event.category', 'category')
-                ->andWhere('category.id=:category_id')
-                ->setParameter('category_id', $categoryFilter->getId());
-            }
+            $queryBuilder = $repository->createQueryBuilderByFormFilter($filters);
+        } else {
+            $queryBuilder = $repository->createQueryBuilder('event');
         }
-        $queryBuilder
-        ->orderBy('event.end_date', 'DESC')
-        ->addCriteria($criteria);
         $query = $queryBuilder->getQuery();
         $event_array = $query->getScalarResult();
         $count = count($event_array);
-        $participants = 0;
-        foreach ($event_array as $event) {
-            $participants += $event['event_participants'];
-        }
         $events = $query->getResult();
+        $participants = $repository->getParticipantsFromResult($event_array);
+
         return $this->render('event/events.html.twig', [
             'form' => $form,
             'events' => $events,
