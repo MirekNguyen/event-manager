@@ -46,8 +46,9 @@ final class EventCategoryFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
+        $categories = ['culture', 'sport', 'business', 'social', 'political', 'entertainment', 'religious'];
         return [
-            'name' => self::faker()->text(255),
+            'name' => self::faker()->unique()->randomElement($categories)
         ];
     }
 
