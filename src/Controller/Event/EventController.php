@@ -56,10 +56,19 @@ class EventController extends AbstractController
                 $criteria->andWhere(Criteria::expr()->lte('end_date', $filters['end_date']));
             }
         }
-        $events = $repository->findByCriteria($criteria);
+        $query = $repository->getQueryByCriteria($criteria);
+        $event_array = $query->getScalarResult();
+        $count = count($event_array);
+        $participants = 0;
+        foreach ($event_array as $event) {
+            $participants += $event['event_participants'];
+        }
+        $events = $query->getResult();
         return $this->render('event/events.html.twig', [
             'form' => $form,
-            'events' => $events
+            'events' => $events,
+            'count' => $count,
+            'participants' => $participants
         ]);
     }
     #[Route('/administration', name: 'app_administration')]

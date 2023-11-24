@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,13 +22,12 @@ class EventRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Event::class);
     }
-    public function findByCriteria(Criteria $criteria): array
+    public function getQueryByCriteria(Criteria $criteria): Query
     {
         return $this->createQueryBuilder('event')
             ->orderBy('event.name', 'DESC')
             ->addCriteria($criteria)
             ->getQuery()
-            ->getResult()
         ;
     }
 
