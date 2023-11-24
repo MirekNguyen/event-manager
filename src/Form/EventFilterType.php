@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\EventCategory;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -42,6 +44,13 @@ class EventFilterType extends AbstractType
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy',
             'required' => false
+        ])
+        ->add('category', EntityType::class, [
+            'class' => EventCategory::class,
+            'choice_label' => 'name',
+            'required' => false,
+            # 'multiple' => true,
+            # 'expanded' => true,
         ])
         ->add(
             'filter',

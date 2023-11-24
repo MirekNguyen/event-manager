@@ -39,6 +39,9 @@ class EventController extends AbstractController
         $repository = $entityManager->getRepository(Event::class);
         $criteria = Criteria::create();
 
+        $queryBuilder = $repository->createQueryBuilder('event');
+
+
         $form = $this->createForm(EventFilterType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -46,6 +49,7 @@ class EventController extends AbstractController
             $nameFilter = $filters['nameFilter'];
             $startDateFilter = $filters['start_date'];
             $endDateFilter = $filters['end_date'];
+            $categoryFilter = $filters['category'];
             if ($nameFilter) {
                 $criteria->andWhere(Criteria::expr()->contains('name', $filters['nameFilter']));
             }
@@ -55,8 +59,17 @@ class EventController extends AbstractController
             if ($endDateFilter) {
                 $criteria->andWhere(Criteria::expr()->lte('end_date', $filters['end_date']));
             }
+            if ($categoryFilter) {
+                $queryBuilder
+                ->innerjoin('event.category', 'category')
+                ->andWhere('category.id=:category_id')
+                ->setParameter('category_id', $categoryFilter->getId());
+            }
+            $queryBuilder
+            ->orderBy('event.name', 'DESC')
+            ->addCriteria($criteria);
         }
-        $query = $repository->getQueryByCriteria($criteria);
+        $query = $queryBuilder->getQuery();
         $event_array = $query->getScalarResult();
         $count = count($event_array);
         $participants = 0;
