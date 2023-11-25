@@ -34,6 +34,9 @@ class Event
     #[ORM\ManyToMany(targetEntity: EventCategory::class, inversedBy: 'events')]
     private Collection $category;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $attachmentFilename = null;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -124,6 +127,18 @@ class Event
     public function removeCategory(EventCategory $category): static
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    public function getAttachmentFilename(): ?string
+    {
+        return $this->attachmentFilename;
+    }
+
+    public function setAttachmentFilename(?string $attachmentFilename): static
+    {
+        $this->attachmentFilename = $attachmentFilename;
 
         return $this;
     }

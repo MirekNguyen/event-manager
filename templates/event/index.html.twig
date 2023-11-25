@@ -35,6 +35,7 @@
         <i class="fas fa-calendar"></i>
         </span>
         </div>
+        {{ form_row(form.attachment_filename) }}
         {{ form_label(form.category) }}
         <div class="input-group">
           {% for category in form.category %}
