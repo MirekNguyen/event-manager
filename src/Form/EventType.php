@@ -70,6 +70,16 @@ class EventType extends AbstractType
             'label' => 'Attachment (PDF file)',
             'mapped' => false,
             'required' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '1024k',
+                    'mimeTypes' => [
+                        'application/pdf',
+                        'application/x-pdf',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid PDF document',
+                ])
+            ],
             'attr' => [
                 'class' => 'form-control',
             ],
