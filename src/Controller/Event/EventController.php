@@ -5,7 +5,6 @@ namespace App\Controller\Event;
 use App\Entity\Event;
 use App\Form\EventFilterType;
 use App\Form\EventType;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
