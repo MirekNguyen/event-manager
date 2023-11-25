@@ -8,20 +8,38 @@ use App\Form\EventType;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EventController extends AbstractController
 {
     #[Route('/', name: 'app_index')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $attachmentFile = $form->get('attachment_filename')->getData();
             $event = $form->getData();
+            if ($attachmentFile) {
+                $originalFilename = pathinfo($attachmentFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $attachmentFile->guessExtension();
+                $event->setAttachmentFilename($newFilename);
+                try {
+                    $attachmentFile->move(
+                        $this->getParameter('attachment_directory'),
+                        $newFilename
+                    );
+                } catch (FileException) {
+                    $this->addFlash('failure', 'Error saving file');
+                    return $this->redirectToRoute('app_index');
+                }
+            }
             $entityManager->persist($event);
             $entityManager->flush();
 

@@ -36,6 +36,9 @@
             {{ difference.format('%h hours, %i minutes') }}
           {% endif %}
         </p>
+        {% if event.attachmentFilename %}
+          <a href="{{ asset('uploads/attachments/' ~ event.attachmentFilename) }}">View attachment (PDF)</a>
+        {% endif %}
       </div>
     </div>
   </div>
