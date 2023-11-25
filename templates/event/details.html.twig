@@ -21,6 +21,14 @@
         <p class="card-text">
           <strong>End Date:</strong> {{ event.endDate|date('Y-m-d H:i') }}
         </p>
+        <p class="card-text">
+        <strong>Categories:</strong>
+          {% for category in event.category %}
+            {{ category.name }}
+            {% if not loop.last %},{% endif %}
+          {% endfor %}
+        </td>
+
         <p class="list-group-item">
           <strong>Duration:</strong>
 

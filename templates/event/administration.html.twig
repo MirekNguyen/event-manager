@@ -6,9 +6,11 @@
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Description</th>
+      <th scope="col">Category</th>
       <th scope="col">Participants</th>
       <th scope="col">Start date</th>
       <th scope="col">End date</th>
+      <th scope="col">Operations</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +18,13 @@
       <tr>
         <td>{{ event.name }}</td>
         <td>{{ event.description }}</td>
+        <td>
+          {% for category in event.category %}
+            {{ category.name }}
+            {% if not loop.last %},{% endif %}
+          {% endfor %}
+        </td>
+
         <td>{{ event.participants }}</td>
         <td>{{ event.startDate|date('d/m/Y\\ H:i') }}</td>
         <td>{{ event.endDate|date('d/m/Y\\ H:i') }}</td>

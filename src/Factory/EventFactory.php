@@ -47,11 +47,11 @@ final class EventFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'end_date' => self::faker()->dateTime(),
+            'end_date' => self::faker()->dateTimeBetween(startDate: '-3 years', endDate: 'now'),
             'name' => self::faker()->sentence(3, true),
             'description' => self::faker()->text(200),
-            'participants' => self::faker()->randomNumber(),
-            'start_date' => self::faker()->dateTime(),
+            'participants' => self::faker()->randomNumber(3),
+            'start_date' => self::faker()->dateTimeBetween(startDate: '-3 years', endDate: 'now'),
         ];
     }
 
