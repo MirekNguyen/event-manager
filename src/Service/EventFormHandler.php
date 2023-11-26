@@ -49,7 +49,9 @@ class EventFormHandler
     public function handleFilter(Request $request): array
     {
         $repository = $this->entityManager->getRepository(Event::class);
-        $form = $this->formFactory->create(EventFilterType::class);
+        $form = $this->formFactory->create(EventFilterType::class, null, [
+            'method' => 'GET'
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->isSubmitted = true;
