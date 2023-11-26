@@ -21,6 +21,7 @@ class EventFormHandler
         private EntityManagerInterface $entityManager,
         private FormFactoryInterface $formFactory,
         private SluggerInterface $slugger,
+        private FileUploader $fileUploader,
     ) {
     }
 
@@ -33,18 +34,19 @@ class EventFormHandler
             $attachmentFile = $form->get('attachment_filename')->getData();
             $event = $form->getData();
             if ($attachmentFile) {
-                $originalFilename = pathinfo($attachmentFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $this->slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $attachmentFile->guessExtension();
+                # $originalFilename = pathinfo($attachmentFile->getClientOriginalName(), PATHINFO_FILENAME);
+                # $safeFilename = $this->slugger->slug($originalFilename);
+                # $newFilename = $safeFilename . '-' . uniqid() . '.' . $attachmentFile->guessExtension();
+                # $destination = $this->params->get('attachment_directory');
+                # try {
+                #     $attachmentFile->move(
+                #         $destination,
+                #         $newFilename
+                #     );
+                # } catch (FileException) {
+                # }
+                $newFilename = $this->fileUploader->upload($attachmentFile);
                 $event->setAttachmentFilename($newFilename);
-                $destination = $this->params->get('attachment_directory');
-                try {
-                    $attachmentFile->move(
-                        $destination,
-                        $newFilename
-                    );
-                } catch (FileException) {
-                }
             }
             $this->entityManager->persist($event);
             $this->entityManager->flush();
