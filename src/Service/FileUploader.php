@@ -13,7 +13,6 @@ class FileUploader
     public function __construct(
         private SluggerInterface $slugger,
         private ParameterBagInterface $params,
-        private FlashBagInterface $flashbag,
     ) {
     }
     public function upload(UploadedFile $attachmentFile)
@@ -28,7 +27,7 @@ class FileUploader
                 $newFilename
             );
         } catch (FileException $e) {
-            $this->flashbag->add('error', 'File upload failed: ' . $e->getMessage());
+            # $this->flashbag->add('error', 'File upload failed: ' . $e->getMessage());
         }
         return $newFilename;
     }

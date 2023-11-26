@@ -3,7 +3,7 @@
 namespace App\Controller\Event;
 
 use App\Entity\Event;
-use App\Form\EventType;
+use App\Service\EventFormHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventActionController extends AbstractController
 {
     #[Route('/events/{id}/edit', name: 'event_edit')]
-    public function edit(Event $event, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(Event $event, Request $request, EventFormHandler $formHandler): Response
     {
-        $form = $this->createForm(EventType::class, $event);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($event);
-            $entityManager->flush();
-
+        $form = $formHandler->handleSubmitForm($request, $event);
+        if ($formHandler->isSubmitted) {
             $this->addFlash('success', 'Event updated');
             return $this->render('event/details.html.twig', [
                 'event' => $event

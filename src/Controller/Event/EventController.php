@@ -3,7 +3,6 @@
 namespace App\Controller\Event;
 
 use App\Entity\Event;
-use App\Form\EventFilterType;
 use App\Service\EventFormHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,11 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends AbstractController
 {
     #[Route('/', name: 'app_index')]
-    public function index(Request $request, EventFormHandler $ev): Response
+    public function index(Request $request, EventFormHandler $formHandler): Response
     {
-        $form = $ev->handleSubmitForm($request);
-        if ($ev->isSubmitted) {
+        $form = $formHandler->handleSubmitForm($request);
+        if ($formHandler->isSubmitted) {
             $this->addFlash('success', 'Event added');
+            return $this->render('event/details.html.twig', [
+                'event' => $formHandler->event
+            ]);
         }
         return $this->render('event/index.html.twig', [
             'form' => $form,
@@ -26,29 +28,14 @@ class EventController extends AbstractController
     }
 
     #[Route('/events', name: 'app_events')]
-    public function events(EntityManagerInterface $entityManager, Request $request): Response
+    public function events(Request $request, EventFormHandler $formHandler): Response
     {
-        $repository = $entityManager->getRepository(Event::class);
-
-        $form = $this->createForm(EventFilterType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $filters = $form->getData();
-            $queryBuilder = $repository->createQueryBuilderByFormFilter($filters);
-        } else {
-            $queryBuilder = $repository->createQueryBuilder('event');
-        }
-        $query = $queryBuilder->getQuery();
-        $event_array = $query->getScalarResult();
-        $count = count($event_array);
-        $events = $query->getResult();
-        $participants = $repository->getParticipantsFromResult($event_array);
-
+        $result = $formHandler->handleFilter($request);
         return $this->render('event/events.html.twig', [
-            'form' => $form,
-            'events' => $events,
-            'count' => $count,
-            'participants' => $participants
+            'form' => $result['form'],
+            'events' => $result['events'],
+            'count' => $result['count'],
+            'participants' => $result['participants'],
         ]);
     }
     #[Route('/administration', name: 'app_administration')]
