@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2538b0efca17b51e4e2e1813adcb3142",
+    "content-hash": "4e66005f49e1c23738359a1824943d35",
     "packages": [
         {
             "name": "babdev/pagerfanta-bundle",
@@ -1604,6 +1604,50 @@
             ],
             "support": {
                 "source": "https://github.com/Pagerfanta/doctrine-orm-adapter/tree/v4.2.0"
+            },
+            "time": "2023-07-10T22:06:56+00:00"
+        },
+        {
+            "name": "pagerfanta/twig",
+            "version": "v4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pagerfanta/twig.git",
+                "reference": "7284d6ff3537e42c36d94bfba8659d7791102853"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pagerfanta/twig/zipball/7284d6ff3537e42c36d94bfba8659d7791102853",
+                "reference": "7284d6ff3537e42c36d94bfba8659d7791102853",
+                "shasum": ""
+            },
+            "require": {
+                "pagerfanta/core": "^3.7 || ^4.0",
+                "php": "^8.1",
+                "twig/twig": "^2.13 || ^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pagerfanta\\Twig\\": "./"
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Twig integration for Pagerfanta",
+            "keywords": [
+                "pagerfanta"
+            ],
+            "support": {
+                "source": "https://github.com/Pagerfanta/twig/tree/v4.2.0"
             },
             "time": "2023-07-10T22:06:56+00:00"
         },
