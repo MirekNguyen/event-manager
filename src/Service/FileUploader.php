@@ -5,6 +5,7 @@ namespace App\Service;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploader
@@ -12,6 +13,7 @@ class FileUploader
     public function __construct(
         private SluggerInterface $slugger,
         private ParameterBagInterface $params,
+        private FlashBagInterface $flashbag,
     ) {
     }
     public function upload(UploadedFile $attachmentFile)
@@ -25,7 +27,8 @@ class FileUploader
                 $destination,
                 $newFilename
             );
-        } catch (FileException) {
+        } catch (FileException $e) {
+            $this->flashbag->add('error', 'File upload failed: ' . $e->getMessage());
         }
         return $newFilename;
     }
