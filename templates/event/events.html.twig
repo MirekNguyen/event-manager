@@ -6,6 +6,7 @@
 
 <div class="container">
   {{ form(form) }}
+  {{ pagerfanta(pager) }}
 <table class="table">
   <thead>
     <tr>
@@ -19,7 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for event in events %}
+    {% for event in pager %}
     <tr>
       <td>{{ event.name }}</td>
       <td>{{ event.description }}</td>

@@ -33,9 +33,9 @@ class EventController extends AbstractController
         $result = $formHandler->handleFilter($request);
         return $this->render('event/events.html.twig', [
             'form' => $result['form'],
-            'events' => $result['events'],
             'count' => $result['count'],
             'participants' => $result['participants'],
+            'pager' => $result['pager'],
         ]);
     }
     #[Route('/administration', name: 'app_administration')]

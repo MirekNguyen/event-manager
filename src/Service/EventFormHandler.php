@@ -7,7 +7,8 @@ use App\Form\EventFilterType;
 use App\Form\EventType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,16 +58,26 @@ class EventFormHandler
         } else {
             $queryBuilder = $repository->createQueryBuilder('event');
         }
-                $query = $queryBuilder->getQuery();
-        $event_array = $query->getScalarResult();
-        $count = count($event_array);
-        $events = $query->getResult();
-        $participants = $repository->getParticipantsFromResult($event_array);
+        $adapter = new QueryAdapter($queryBuilder);
+        $pagerfanta = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            $adapter,
+            $request->query->get('page', 1),
+            10
+        );
+
+        # $query = $queryBuilder->getQuery();
+        # $event_array = $query->getScalarResult();
+        # $count = count($event_array);
+        # $events = $query->getResult();
+        # $participants = $repository->getParticipantsFromResult($event_array);
+
+        $count = 0;
+        $participants = 0;
         return [
             'form' => $form,
-            'events' => $events,
             'count' => $count,
             'participants' => $participants,
+            'pager' => $pagerfanta
         ];
     }
 }
