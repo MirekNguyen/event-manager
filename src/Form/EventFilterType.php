@@ -61,7 +61,7 @@ class EventFilterType extends AbstractType
             SubmitType::class,
             [
                 'attr' => [
-                    'class' => 'btn btn-primary'
+                    'class' => 'btn btn-primary mx-auto col-3'
                 ],
             ]
         )

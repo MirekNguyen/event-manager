@@ -5,14 +5,21 @@
 {% block body %}
 
 <div class="container">
-<div class="card mx-auto" style="max-width: 600px">
+<div class="card mx-auto bg-light" style="max-width: 600px">
 <div class="card-body">
 <h4 class="card-title mt-3 text-center">Filter events</h4>
-  {{ form(form) }}
+{{ form_start(form) }}
+      {% for child in form %}
+        <div class="form-group mt-2 mx-auto">
+          {{ form_row(child) }}
+        </div>
+    {% endfor %}
+{{ form_end(form) }}
+
   </div>
   </div>
   <nav aria-label="Page navigation example">
-   <ul class="pagination justify-content-center">
+   <ul class="pagination justify-content-center mt-4">
   {{ pagerfanta(pager) }}
   </ul>
   </nav>
