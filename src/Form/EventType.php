@@ -29,7 +29,7 @@ class EventType extends AbstractType
             'constraints' => [
                 new Constraints\NotBlank()
             ],
-            'error_bubbling' => true,
+            'label' => 'Name *',
         ])
         ->add('description', TextareaType::class, [
             'attr' => [
@@ -40,8 +40,10 @@ class EventType extends AbstractType
         ])
         ->add('participants', IntegerType::class, [
             'attr' => [
-                'class' => 'form-control'
-            ]
+                'class' => 'form-control',
+                'placeholder' => 'Number of participants'
+            ],
+            'label' => 'Participants *',
         ])
         ->add('category', EntityType::class, [
             'attr' => [
@@ -57,19 +59,22 @@ class EventType extends AbstractType
         ->add('start_date', DateTimeType::class, [
             'attr' => [
                 'class' => 'form-control',
+                'placeholder' => 'dd/MM/yyyy HH:mm'
             ],
             'constraints' => [
                 new Constraints\NotBlank(),
             ],
+            'label' => 'Start date *',
             'html5' => false,
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy HH:mm',
-            'error_bubbling' => true,
         ])
         ->add('end_date', DateTimeType::class, [
             'attr' => [
                 'class' => 'form-control',
+                'placeholder' => 'dd/MM/yyyy HH:mm'
             ],
+            'label' => 'End date *',
             'constraints' => [
                 new Constraints\NotBlank(),
                 new Constraints\GreaterThan([
@@ -78,7 +83,6 @@ class EventType extends AbstractType
             'html5' => false,
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy HH:mm',
-            'error_bubbling' => true,
         ])
         ->add('attachment_filename', FileType::class, [
             'label' => 'Attachment (PDF file)',
@@ -100,7 +104,7 @@ class EventType extends AbstractType
         ])
         ->add('save', SubmitType::class, [
             'attr' => [
-                'class' => 'btn btn-primary'
+                'class' => 'btn btn-primary mx-auto col-3'
             ]
         ])
         ;

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints;
 
 class EventFilterType extends AbstractType
 {
@@ -24,26 +25,28 @@ class EventFilterType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Event name...',
                 ],
-                'required' => false
-            ]
+                'required' => false,
+            ],
         )
         ->add('start_date', DateTimeType::class, [
             'attr' => [
                 'class' => 'form-control',
+                'placeholder' => 'dd/MM/yyyy',
             ],
             'html5' => false,
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy',
-            'required' => false
+            'required' => false,
         ])
         ->add('end_date', DateTimeType::class, [
             'attr' => [
                 'class' => 'form-control',
+                'placeholder' => 'dd/MM/yyyy',
             ],
             'html5' => false,
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy',
-            'required' => false
+            'required' => false,
         ])
         ->add('category', EntityType::class, [
             'attr' => [
