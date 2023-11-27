@@ -3,27 +3,36 @@
 {% block title %}New Event{% endblock %}
 
 {% block body %}
-<div class="container">
-<h4 class="card-title mt-3 text-center">New Event</h4>
-  <div class="card">
+<div class="container my-auto h-100">
+  <div class="card justify-content-center mx-auto bg-light p-4 my-auto" style="max-width: 800px">
+  <h4 class="card-title text-center">New Event</h4>
     <div class="card-body">
-        {{ form_errors(form) }}
         {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.participants) }}
-
-        {{ form_label(form.start_date) }}
-        <div class="input-group" />
-          {{ form_widget(form.start_date) }}
-          <span
-            class="input-group-text"
-            data-td-target="#datetimepicker1"
-            data-td-toggle="datetimepicker"
-          >
-            <i class="fas fa-calendar"></i>
-          </span>
+        <div class="form-group">
+          {{ form_row(form.name) }}
         </div>
+        <div class="form-group mt-2">
+          {{ form_row(form.description) }}
+        </div>
+        <div class="form-group mt-2">
+          {{ form_row(form.participants) }}
+        </div>
+
+        <div class="form-group mt-2">
+          {{ form_label(form.start_date) }}
+          <div class="input-group" />
+            {{ form_widget(form.start_date) }}
+            <span
+              class="input-group-text"
+              data-td-target="#datetimepicker1"
+              data-td-toggle="datetimepicker"
+            >
+              <i class="fas fa-calendar"></i>
+            </span>
+          </div>
+          {{ form_errors(form.start_date) }}
+        </div>
+        <div class="form-group mt-2">
         {{ form_label(form.end_date) }}
         <div class="input-group" />
         {{ form_widget(form.end_date) }}
@@ -35,15 +44,22 @@
         <i class="fas fa-calendar"></i>
         </span>
         </div>
-        {{ form_row(form.attachment_filename) }}
+          {{ form_errors(form.end_date) }}
+        </div>
+        <div class="form-group mt-2">
+          {{ form_row(form.attachment_filename) }}
+        </div>
         {{ form_label(form.category) }}
-        <div class="input-group">
+        <div class="input-group mt-2">
           {% for category in form.category %}
         <div class="form-check form-check-inline">
             {{ form_widget(category, {'attr': {'class': 'form-check-input'}}) }}
             {{ form_label(category) }}
         </div>
           {% endfor %}
+        </div>
+        <div class="input-group mx-auto mt-4">
+        {{ form_widget(form.save) }}
         </div>
     </div>
   </div>
