@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints;
 
 class EventType extends AbstractType
 {
@@ -26,6 +26,10 @@ class EventType extends AbstractType
                 'class' => 'form-control',
                 'placeholder' => 'Event name...',
             ],
+            'constraints' => [
+                new Constraints\NotBlank()
+            ],
+            'error_bubbling' => true,
         ])
         ->add('description', TextareaType::class, [
             'attr' => [
@@ -54,25 +58,35 @@ class EventType extends AbstractType
             'attr' => [
                 'class' => 'form-control',
             ],
+            'constraints' => [
+                new Constraints\NotBlank(),
+            ],
             'html5' => false,
             'widget' => 'single_text',
-            'format' => 'dd/MM/yyyy HH:mm'
+            'format' => 'dd/MM/yyyy HH:mm',
+            'error_bubbling' => true,
         ])
         ->add('end_date', DateTimeType::class, [
             'attr' => [
                 'class' => 'form-control',
             ],
+            'constraints' => [
+                new Constraints\NotBlank(),
+                new Constraints\GreaterThan([
+                    'propertyPath' => 'parent.all[start_date].data'])
+            ],
             'html5' => false,
             'widget' => 'single_text',
-            'format' => 'dd/MM/yyyy HH:mm'
+            'format' => 'dd/MM/yyyy HH:mm',
+            'error_bubbling' => true,
         ])
         ->add('attachment_filename', FileType::class, [
             'label' => 'Attachment (PDF file)',
             'mapped' => false,
             'required' => false,
             'constraints' => [
-                new File([
-                    'maxSize' => '1024k',
+                new Constraints\File([
+                    'maxSize' => '4096k',
                     'mimeTypes' => [
                         'application/pdf',
                         'application/x-pdf',
