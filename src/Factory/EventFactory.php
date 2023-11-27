@@ -46,12 +46,14 @@ final class EventFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
+        $start = self::faker()->dateTimeBetween('-3 years', 'now');
+        $end = self::faker()->dateTimeBetween($start, $start->format('Y-m-d H:i:s') . ' +90 days');
         return [
-            'end_date' => self::faker()->dateTimeBetween(startDate: '-3 years', endDate: 'now'),
             'name' => self::faker()->sentence(3, true),
             'description' => self::faker()->text(200),
             'participants' => self::faker()->randomNumber(3),
-            'start_date' => self::faker()->dateTimeBetween(startDate: '-3 years', endDate: 'now'),
+            'start_date' => $start,
+            'end_date' => $end,
         ];
     }
 
