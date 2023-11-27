@@ -66,15 +66,9 @@ class EventFormHandler
             $request->query->get('page', 1),
             10
         );
-
-        # $query = $queryBuilder->getQuery();
-        # $event_array = $query->getScalarResult();
-        # $count = count($event_array);
-        # $events = $query->getResult();
-        # $participants = $repository->getParticipantsFromResult($event_array);
-
-        $count = 0;
-        $participants = 0;
+        $count = $pagerfanta->getNbResults();
+        $queryBuilder->select('SUM(event.participants) as totalParticipants');
+        $participants = $queryBuilder->getQuery()->getSingleScalarResult();
         return [
             'form' => $form,
             'count' => $count,
