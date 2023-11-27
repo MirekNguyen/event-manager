@@ -5,6 +5,8 @@ namespace App\Controller\Event;
 use App\Entity\Event;
 use App\Service\EventFormHandler;
 use Doctrine\ORM\EntityManagerInterface;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,12 +41,20 @@ class EventController extends AbstractController
         ]);
     }
     #[Route('/administration', name: 'app_administration')]
-    public function administration(EntityManagerInterface $entityManager): Response
+    public function administration(Request $request, EntityManagerInterface $entityManager): Response
     {
         $repository = $entityManager->getRepository(Event::class);
+        $queryBuilder = $repository->createQueryBuilder('event');
+        $adapter = new QueryAdapter($queryBuilder);
+        $pagerfanta = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            $adapter,
+            $request->query->get('page', 1),
+            10
+        );
+
         $events = $repository->findAll();
         return $this->render('event/administration.html.twig', [
-            'events' => $events
+            'pager' => $pagerfanta
         ]);
     }
     #[Route('event/{id}', name: 'app_details')]

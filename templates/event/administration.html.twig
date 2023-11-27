@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block title %}Administration{% endblock %}
 {% block body %}
+<div class="container">
+<h4 class="card-title mt-3 mb-3 text-center">Administration</h4>
+  <nav aria-label="Page navigation example">
+   <ul class="pagination justify-content-center">
+  {{ pagerfanta(pager) }}
+  </ul>
+  </nav>
 <table class="table">
   <thead>
     <tr>
@@ -14,7 +21,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for event in events %}
+    {% for event in pager %}
       <tr>
         <td>{{ event.name }}</td>
         <td>{{ event.description }}</td>
@@ -36,4 +43,5 @@
     {% endfor %}
   </tbody>
 </table>
+</div>
 {% endblock %}
